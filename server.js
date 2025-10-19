@@ -5,8 +5,10 @@ const recipesRoutes = require('./recipesRoutes')
 const authRoutes = require('./routes/authRoutes')
 const path = require('path')
 
-// Load environment variables from config.env
-require('dotenv').config({ path: path.join(__dirname, 'config.env') })
+// Load environment variables from config.local.env (development) or config.env (production)
+const configPath = path.join(__dirname, 'config.local.env')
+const fallbackPath = path.join(__dirname, 'config.env')
+require('dotenv').config({ path: require('fs').existsSync(configPath) ? configPath : fallbackPath })
 
 const app = express()
 
